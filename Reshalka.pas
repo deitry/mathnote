@@ -7,25 +7,25 @@ uses
   Dialogs, StdCtrls, ExtCtrls, Math, Menus, ComCtrls, DBCtrls;
 
 const
-  IdentCount = 3; //Количество цифр, предназначенных для идентификатора
-  VeshMax = 6; //Сколько всего веществ
+  IdentCount = 3; //РљРѕР»РёС‡РµСЃС‚РІРѕ С†РёС„СЂ, РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅРЅС‹С… РґР»СЏ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
+  VeshMax = 6; //РЎРєРѕР»СЊРєРѕ РІСЃРµРіРѕ РІРµС‰РµСЃС‚РІ
   VozdMax = 20; {kol-vo temperatur, dlya k-x privedenbl sv-va vozduxa}
   GazMax = 9; {kol-vo temperatur, dlya k-x privedenbl sv-va ostalbnblx gazov}
   VodaMax = 11;
   AMG10Max = 18;
   TrubyMax = 15;
-  KEY_CTRL_B = 02; // Жирный
-  KEY_CTRL_D = 04; // Создание конечного варианта документа
-  KEY_CTRL_G = 07; // Решение (синий)
-  KEY_CTRL_I = 09; // Курсив
-  KEY_CTRL_L = 12; // Автоматическое "разукрашивание" текста
-  KEY_CTRL_P = 16; // Сведение всех шрифтов к одному
-  KEY_CTRL_S = 19; // Сохранение
-  KEY_CTRL_T = 20; // Формула (красный)
-  KEY_CTRL_U = 21; // Подчёркнутый
-  KEY_CTRL_W = 23; // Исходный <> Конечный
-  KEY_CTRL_Y = 25; // Комментарий (зелёный + курсив)
-  KEY_CTRL_Z = 26; // Отмена
+  KEY_CTRL_B = 02; // Р–РёСЂРЅС‹Р№
+  KEY_CTRL_D = 04; // РЎРѕР·РґР°РЅРёРµ РєРѕРЅРµС‡РЅРѕРіРѕ РІР°СЂРёР°РЅС‚Р° РґРѕРєСѓРјРµРЅС‚Р°
+  KEY_CTRL_G = 07; // Р РµС€РµРЅРёРµ (СЃРёРЅРёР№)
+  KEY_CTRL_I = 09; // РљСѓСЂСЃРёРІ
+  KEY_CTRL_L = 12; // РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ "СЂР°Р·СѓРєСЂР°С€РёРІР°РЅРёРµ" С‚РµРєСЃС‚Р°
+  KEY_CTRL_P = 16; // РЎРІРµРґРµРЅРёРµ РІСЃРµС… С€СЂРёС„С‚РѕРІ Рє РѕРґРЅРѕРјСѓ
+  KEY_CTRL_S = 19; // РЎРѕС…СЂР°РЅРµРЅРёРµ
+  KEY_CTRL_T = 20; // Р¤РѕСЂРјСѓР»Р° (РєСЂР°СЃРЅС‹Р№)
+  KEY_CTRL_U = 21; // РџРѕРґС‡С‘СЂРєРЅСѓС‚С‹Р№
+  KEY_CTRL_W = 23; // РСЃС…РѕРґРЅС‹Р№ <> РљРѕРЅРµС‡РЅС‹Р№
+  KEY_CTRL_Y = 25; // РљРѕРјРјРµРЅС‚Р°СЂРёР№ (Р·РµР»С‘РЅС‹Р№ + РєСѓСЂСЃРёРІ)
+  KEY_CTRL_Z = 26; // РћС‚РјРµРЅР°
 
 type
 
@@ -33,7 +33,7 @@ type
   Svoistva = (T_K, ro, Cp, lambda, myu, nyu, a, Prand);
   SvVesh = array [Veshestva] of array of array [Svoistva] of real;
 
-  ESyntaxError=class(Exception);  //для возникающих синтаксических ошибок
+  ESyntaxError=class(Exception);  //РґР»СЏ РІРѕР·РЅРёРєР°СЋС‰РёС… СЃРёРЅС‚Р°РєСЃРёС‡РµСЃРєРёС… РѕС€РёР±РѕРє
 
   TReshalkaMainForm = class(TForm)
     MainPanel: TPanel;
@@ -230,13 +230,13 @@ const
         (423,723.2,2.496,0.1087,0.000019  ,0.00000266,0.0000000600,44.4)  );
 
 // -----------------------------
-// Глобальные переменные проекта
+// Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ РїСЂРѕРµРєС‚Р°
 // -----------------------------
 var
   ReshalkaMainForm: TReshalkaMainForm;
   SvoistvaVeshestv: array [Veshestva] of array of array [Svoistva] of real;
   i,k,l: byte;
-  SyntaxFail : boolean; // true -> в синтаксисе есть ошибки!
+  SyntaxFail : boolean; // true -> РІ СЃРёРЅС‚Р°РєСЃРёСЃРµ РµСЃС‚СЊ РѕС€РёР±РєРё!
 
 implementation
 
@@ -253,8 +253,8 @@ implementation
     DeleteComments := vrem;
   end;
 
-  // Замена '#***' и '№***' на значения соответсвтуюших переменных
-  // -> возможность работы с массивами (а вернее, их подобиями)
+  // Р—Р°РјРµРЅР° '#***' Рё 'в„–***' РЅР° Р·РЅР°С‡РµРЅРёСЏ СЃРѕРѕС‚РІРµС‚СЃРІС‚СѓСЋС€РёС… РїРµСЂРµРјРµРЅРЅС‹С…
+  // -> РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЂР°Р±РѕС‚С‹ СЃ РјР°СЃСЃРёРІР°РјРё (Р° РІРµСЂРЅРµРµ, РёС… РїРѕРґРѕР±РёСЏРјРё)
   procedure ValueInsert(var St:string);
   var VremName : string;
       k : byte;
@@ -267,32 +267,32 @@ implementation
        repeat begin
        VremName := VremName+St[k];
        inc(k);
-       end; until (St[k]='#') or (St[k]='№')
+       end; until (St[k]='#') or (St[k]='в„–')
                or (St[k]='|') or (k>=length(St))
                or (St[k]='[');
        k:=pos('#',St);
        delete(St,k,length(VremName)+1);
        try insert('['+ReshalkaMainForm.ListBoxVars.Items.Values[VremName]+']',
           St, k);
-       except ShowMessage('Хреновина получается');
+       except ShowMessage('РҐСЂРµРЅРѕРІРёРЅР° РїРѕР»СѓС‡Р°РµС‚СЃСЏ');
        end;
      end;
 
-   while pos('№',St)<>0 do
+   while pos('в„–',St)<>0 do
      begin
        VremName:='';
-       k:=pos('№',St)+1;
+       k:=pos('в„–',St)+1;
        repeat begin
        VremName := VremName+St[k];
        inc(k);
-       end; until (St[k]='#') or (St[k]='№')
+       end; until (St[k]='#') or (St[k]='в„–')
                or (St[k]='|') or (k>=length(St))
                or (St[k]='[');
-       k:=pos('№',St);
+       k:=pos('в„–',St);
        delete(St,k,length(VremName)+1);
        try insert(ReshalkaMainForm.ListBoxVars.Items.Values[VremName],
           St, k);
-       except ShowMessage('Хреновина получается');
+       except ShowMessage('РҐСЂРµРЅРѕРІРёРЅР° РїРѕР»СѓС‡Р°РµС‚СЃСЏ');
        end;
        while pos('|',St)<>0 do delete (St,pos('|',St),1);
      end;
@@ -302,13 +302,13 @@ implementation
   function DeleteIdents(st:string):string;
    var exam,vrem : string;
 
-     procedure DelId(const ex:string {образец};var str:string{редакт. строка});
-     begin  // Удаление отедьного идентификатора
+     procedure DelId(const ex:string {РѕР±СЂР°Р·РµС†};var str:string{СЂРµРґР°РєС‚. СЃС‚СЂРѕРєР°});
+     begin  // РЈРґР°Р»РµРЅРёРµ РѕС‚РµРґСЊРЅРѕРіРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
        while pos(ex,str)<>0 do
             delete(str,pos(ex,str),length(ex));
      end; {DelId}
 
-  begin         // (..) - чтобы даже с таким значком можно было производить вычисления
+  begin         // (..) - С‡С‚РѕР±С‹ РґР°Р¶Рµ СЃ С‚Р°РєРёРј Р·РЅР°С‡РєРѕРј РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїСЂРѕРёР·РІРѕРґРёС‚СЊ РІС‹С‡РёСЃР»РµРЅРёСЏ
     vrem:=st;
     exam:='(..) ';
     DelId(exam,vrem);
@@ -329,7 +329,7 @@ implementation
        4: Vrem := H2;
        5: Vrem := Voda;
        6: Vrem := AMG10;
-       else raise ESyntaxError.Create('Нету такого вещества!');
+       else raise ESyntaxError.Create('РќРµС‚Сѓ С‚Р°РєРѕРіРѕ РІРµС‰РµСЃС‚РІР°!');
      end; {case}
    ByteToVeshestva := Vrem;
    end;
@@ -346,7 +346,7 @@ implementation
        6: Vrem := nyu;
        7: Vrem := a;
        8: Vrem := Prand;
-       else raise ESyntaxError.Create('Нету такого свойства!');
+       else raise ESyntaxError.Create('РќРµС‚Сѓ С‚Р°РєРѕРіРѕ СЃРІРѕР№СЃС‚РІР°!');
      end; {case}
    ByteToSvoistva := Vrem;
    end;
@@ -412,7 +412,7 @@ Function Znachenie(fluid:Veshestva; svoistvo: Svoistva; Temp:real):real;
           n:=i+1;
           if (Temp >= (SvoistvaVeshestv[fluid][m,T_K]) ) and (Temp < (SvoistvaVeshestv[fluid][n,T_K]) )
            then
-             begin {Линейная аппроксимация}
+             begin {Р›РёРЅРµР№РЅР°СЏ Р°РїРїСЂРѕРєСЃРёРјР°С†РёСЏ}
                vrem:= SvoistvaVeshestv[fluid][m,svoistvo] +
                  (SvoistvaVeshestv[fluid][n,svoistvo] - SvoistvaVeshestv[fluid][m,svoistvo]) *
                  ( Temp - (SvoistvaVeshestv[fluid][m,T_K]) )/
@@ -425,49 +425,49 @@ Function Znachenie(fluid:Veshestva; svoistvo: Svoistva; Temp:real):real;
   end;{Znacheine svoistva veshestva}
 
 //----------------------------------------------
-//Калькуляторная часть:
-//вычисления введённых формул
+//РљР°Р»СЊРєСѓР»СЏС‚РѕСЂРЅР°СЏ С‡Р°СЃС‚СЊ:
+//РІС‹С‡РёСЃР»РµРЅРёСЏ РІРІРµРґС‘РЅРЅС‹С… С„РѕСЂРјСѓР»
 //----------------------------------------------
 
-// Проверка символа на соответствие <Digit>
+// РџСЂРѕРІРµСЂРєР° СЃРёРјРІРѕР»Р° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ <Digit>
 function IsDigit(Ch:Char):Boolean;
  begin
   Result:=Ch in ['0'..'9']
  end;
 
-// Проверка символа на соответствие <Sign>
+// РџСЂРѕРІРµСЂРєР° СЃРёРјРІРѕР»Р° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ <Sign>
 function IsSign(Ch:Char):Boolean;
  begin
   Result:=(Ch='+') or (Ch='-')
  end;
 
-// Проверка символа на соответствие <Separator>
+// РџСЂРѕРІРµСЂРєР° СЃРёРјРІРѕР»Р° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ <Separator>
 function IsSeparator(Ch:Char):Boolean;
  begin
   Result:=Ch=DecimalSeparator
  end;
 
-// Проверка символа на соответствие <Exponent>
+// РџСЂРѕРІРµСЂРєР° СЃРёРјРІРѕР»Р° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ <Exponent>
 function IsExponent(Ch:Char):Boolean;
  begin
   Result:=(Ch='E') or (Ch='e')
  end;
 
-// Выделение из строки подстроки, соответствующей
-// определению <Number>, и вычисление этого числа
-// S - строка, из которой выделяется подстрока
-// P - номер позиции в строке, с которой должно
-// начинаться число. После завершения работы функции
-// этот параметр содержит номер первого после числа
-// символа
+// Р’С‹РґРµР»РµРЅРёРµ РёР· СЃС‚СЂРѕРєРё РїРѕРґСЃС‚СЂРѕРєРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№
+// РѕРїСЂРµРґРµР»РµРЅРёСЋ <Number>, Рё РІС‹С‡РёСЃР»РµРЅРёРµ СЌС‚РѕРіРѕ С‡РёСЃР»Р°
+// S - СЃС‚СЂРѕРєР°, РёР· РєРѕС‚РѕСЂРѕР№ РІС‹РґРµР»СЏРµС‚СЃСЏ РїРѕРґСЃС‚СЂРѕРєР°
+// P - РЅРѕРјРµСЂ РїРѕР·РёС†РёРё РІ СЃС‚СЂРѕРєРµ, СЃ РєРѕС‚РѕСЂРѕР№ РґРѕР»Р¶РЅРѕ
+// РЅР°С‡РёРЅР°С‚СЊСЃСЏ С‡РёСЃР»Рѕ. РџРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ СЂР°Р±РѕС‚С‹ С„СѓРЅРєС†РёРё
+// СЌС‚РѕС‚ РїР°СЂР°РјРµС‚СЂ СЃРѕРґРµСЂР¶РёС‚ РЅРѕРјРµСЂ РїРµСЂРІРѕРіРѕ РїРѕСЃР»Рµ С‡РёСЃР»Р°
+// СЃРёРјРІРѕР»Р°
 function Number(const S:string;var P:Integer):Extended;
  var InitPos:Integer;
   begin
-   // InitPos нам понадобиться для выделения подстроки,
-   // которая будет передана в StrToFloat
+   // InitPos РЅР°Рј РїРѕРЅР°РґРѕР±РёС‚СЊСЃСЏ РґР»СЏ РІС‹РґРµР»РµРЅРёСЏ РїРѕРґСЃС‚СЂРѕРєРё,
+   // РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ РїРµСЂРµРґР°РЅР° РІ StrToFloat
    InitPos:=P;
    if (P>Length(S)) or not IsDigit(S[P]) then
-    raise ESyntaxError.Create('Ожидается цифра в позиции '+IntToStr(P));
+    raise ESyntaxError.Create('РћР¶РёРґР°РµС‚СЃСЏ С†РёС„СЂР° РІ РїРѕР·РёС†РёРё '+IntToStr(P));
    repeat
     Inc(P)
    until (P>Length(S)) or not IsDigit(S[P]);
@@ -475,7 +475,7 @@ function Number(const S:string;var P:Integer):Extended;
     begin
      Inc(P);
      if (P>Length(S)) or not IsDigit(S[P]) then
-      raise ESyntaxError.Create('Ожидается цифра в позиции '+IntToStr(P));
+      raise ESyntaxError.Create('РћР¶РёРґР°РµС‚СЃСЏ С†РёС„СЂР° РІ РїРѕР·РёС†РёРё '+IntToStr(P));
      repeat
       Inc(P)
      until (P>Length(S)) or not IsDigit(S[P]);
@@ -484,11 +484,11 @@ function Number(const S:string;var P:Integer):Extended;
     begin
      Inc(P);
      if P>Length(S) then
-      raise ESyntaxError.Create('Неожиданный конец строки');
+      raise ESyntaxError.Create('РќРµРѕР¶РёРґР°РЅРЅС‹Р№ РєРѕРЅРµС† СЃС‚СЂРѕРєРё');
      if IsSign(S[P]) then
       Inc(P);
      if (P>Length(S)) or not IsDigit(S[P]) then
-      raise ESyntaxError.Create('Ожидается цифра в позиции '+IntToStr(P));
+      raise ESyntaxError.Create('РћР¶РёРґР°РµС‚СЃСЏ С†РёС„СЂР° РІ РїРѕР·РёС†РёРё '+IntToStr(P));
      repeat
       Inc(P)
      until (P>Length(S)) or not IsDigit(S[P]);
@@ -496,30 +496,30 @@ function Number(const S:string;var P:Integer):Extended;
    Result:=StrToFloat(Copy(S,InitPos,P-InitPos))
   end;
 
-// Проверка символа на соответствие <Operator1>
+// РџСЂРѕРІРµСЂРєР° СЃРёРјРІРѕР»Р° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ <Operator1>
 function IsOperator1(Ch:Char):Boolean;
  begin
   Result:=Ch in ['+','-']
  end;
 
-// Проверка символа на соответствие <Operator2>
+// РџСЂРѕРІРµСЂРєР° СЃРёРјРІРѕР»Р° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ <Operator2>
 function IsOperator2(Ch:Char):Boolean;
  begin
-  Result:=Ch in ['*','/','=','>','<'] // "Равно" добавлено для логических операций;
- end;                         // аналог 2+3=5 <-> 2+3*5
+  Result:=Ch in ['*','/','=','>','<'] // "Р Р°РІРЅРѕ" РґРѕР±Р°РІР»РµРЅРѕ РґР»СЏ Р»РѕРіРёС‡РµСЃРєРёС… РѕРїРµСЂР°С†РёР№;
+ end;                         // Р°РЅР°Р»РѕРі 2+3=5 <-> 2+3*5
 
-// Так как грамматика рекурсивна, функция Expr
-// должна быть объявлена заранее
+// РўР°Рє РєР°Рє РіСЂР°РјРјР°С‚РёРєР° СЂРµРєСѓСЂСЃРёРІРЅР°, С„СѓРЅРєС†РёСЏ Expr
+// РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕР±СЉСЏРІР»РµРЅР° Р·Р°СЂР°РЅРµРµ
 function Expr(const S:string;var P:Integer):Extended;
  forward;
 
-// Вычисление функции, имя которой передаётся через FuncName
+// Р’С‹С‡РёСЃР»РµРЅРёРµ С„СѓРЅРєС†РёРё, РёРјСЏ РєРѕС‚РѕСЂРѕР№ РїРµСЂРµРґР°С‘С‚СЃСЏ С‡РµСЂРµР· FuncName
 function Func(const FuncName,S:string;var P:Integer):Extended;
  var Arg:Extended;
   begin
-   // Вычисляем аргумент
+   // Р’С‹С‡РёСЃР»СЏРµРј Р°СЂРіСѓРјРµРЅС‚
    Arg:=Expr(S,P);
-   // Сравниваем имя функции с одним из допустимых
+   // РЎСЂР°РІРЅРёРІР°РµРј РёРјСЏ С„СѓРЅРєС†РёРё СЃ РѕРґРЅРёРј РёР· РґРѕРїСѓСЃС‚РёРјС‹С…
    if AnsiCompareText(FuncName,'sin')=0 then
     Result:=Sin(Arg)
    else if AnsiCompareText(FuncName,'cos')=0 then
@@ -582,96 +582,96 @@ function Func(const FuncName,S:string;var P:Integer):Extended;
     Result:=(Arg)-0.1
 
    else
-    raise ESyntaxError.Create('Неизвестная функция '+FuncName)
+    raise ESyntaxError.Create('РќРµРёР·РІРµСЃС‚РЅР°СЏ С„СѓРЅРєС†РёСЏ '+FuncName)
   end;
 
-// Выделение из строки идентификатора и определение,
-// является ли он переменной или функцией
+// Р’С‹РґРµР»РµРЅРёРµ РёР· СЃС‚СЂРѕРєРё РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° Рё РѕРїСЂРµРґРµР»РµРЅРёРµ,
+// СЏРІР»СЏРµС‚СЃСЏ Р»Рё РѕРЅ РїРµСЂРµРјРµРЅРЅРѕР№ РёР»Рё С„СѓРЅРєС†РёРµР№
 function Identifier(const S:string;var P:Integer):Extended;
  var InitP,k:Integer;
      IDStr,VarValue,VremName,VremValue:string;
-     vrem:char; // Для выделения №*** и #***
+     vrem:char; // Р”Р»СЏ РІС‹РґРµР»РµРЅРёСЏ в„–*** Рё #***
   begin
-   // Запоминаем начало идентификатора
+   // Р—Р°РїРѕРјРёРЅР°РµРј РЅР°С‡Р°Р»Рѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°
    InitP:=P;
-   // Первый символ был проверен ещё в функции Base.
-   // Сразу переходим к следующему
+   // РџРµСЂРІС‹Р№ СЃРёРјРІРѕР» Р±С‹Р» РїСЂРѕРІРµСЂРµРЅ РµС‰С‘ РІ С„СѓРЅРєС†РёРё Base.
+   // РЎСЂР°Р·Сѓ РїРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµРјСѓ
    Inc(P);
    while (P<=Length(S)) and (S[P] in ['A'..'Z','a'..'z','_',
-                             '0'..'9','А'..'Я','а'..'я','#','№','|']) do
-    Inc(P);    // Символы '#','№' добавлен для возможности описания массивов:
-    // ololo#i#k, к примеру, может означать ololo[1][3] при i=1, k=3;
-    // ololo№i№k - ololo13
+                             '0'..'9','Рђ'..'РЇ','Р°'..'СЏ','#','в„–','|']) do
+    Inc(P);    // РЎРёРјРІРѕР»С‹ '#','в„–' РґРѕР±Р°РІР»РµРЅ РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕРїРёСЃР°РЅРёСЏ РјР°СЃСЃРёРІРѕРІ:
+    // ololo#i#k, Рє РїСЂРёРјРµСЂСѓ, РјРѕР¶РµС‚ РѕР·РЅР°С‡Р°С‚СЊ ololo[1][3] РїСЂРё i=1, k=3;
+    // ololoв„–iв„–k - ololo13
 
-   // Выделяем идентификатор из строки
+   // Р’С‹РґРµР»СЏРµРј РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РёР· СЃС‚СЂРѕРєРё
    IDStr:=Copy(S,InitP,P-InitP);
 
-   // Заменяем №*** и #*** на соответствующие значения
+   // Р—Р°РјРµРЅСЏРµРј в„–*** Рё #*** РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ Р·РЅР°С‡РµРЅРёСЏ
    ValueInsert(IDStr);
 
-   // Если за ним стоит открывающая скобка - это функция
+   // Р•СЃР»Рё Р·Р° РЅРёРј СЃС‚РѕРёС‚ РѕС‚РєСЂС‹РІР°СЋС‰Р°СЏ СЃРєРѕР±РєР° - СЌС‚Рѕ С„СѓРЅРєС†РёСЏ
    if (P<=Length(S)) and (S[P]='(') then
     begin
      Inc(P);
      Result:=Func(IDStr,S,P);
-     // Проверяем, что скобка закрыта
+     // РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ СЃРєРѕР±РєР° Р·Р°РєСЂС‹С‚Р°
      if (P>Length(S)) or (S[P]<>')') then
-      raise ESyntaxError.Create('Ожидается ")" в позиции '+IntToStr(P));
+      raise ESyntaxError.Create('РћР¶РёРґР°РµС‚СЃСЏ ")" РІ РїРѕР·РёС†РёРё '+IntToStr(P));
      Inc(P)
     end
-   // если скобки нет - переменная
+   // РµСЃР»Рё СЃРєРѕР±РєРё РЅРµС‚ - РїРµСЂРµРјРµРЅРЅР°СЏ
    else
     begin
      if VarValue='' then VarValue:=ReshalkaMainForm.ListBoxVars.Items.Values[IDStr];
      if VarValue='' then
-      raise ESyntaxError.Create('Необъявленная переменная '+IDStr+' в позиции '+IntToStr(P))
+      raise ESyntaxError.Create('РќРµРѕР±СЉСЏРІР»РµРЅРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ '+IDStr+' РІ РїРѕР·РёС†РёРё '+IntToStr(P))
      else
       Result:=StrToFloat(VarValue)
     end
   end;
 
-// Выделение подстроки, соответствующей <Base>,
-// и её вычисление
+// Р’С‹РґРµР»РµРЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ <Base>,
+// Рё РµС‘ РІС‹С‡РёСЃР»РµРЅРёРµ
 function Base(const S:string;var P:Integer):Extended;
  begin
   if P>Length(S) then
-   raise ESyntaxError.Create('Неожиданный конец строки');
-  // По первому символу подстроки определяем,
-  // какое это основание
+   raise ESyntaxError.Create('РќРµРѕР¶РёРґР°РЅРЅС‹Р№ РєРѕРЅРµС† СЃС‚СЂРѕРєРё');
+  // РџРѕ РїРµСЂРІРѕРјСѓ СЃРёРјРІРѕР»Сѓ РїРѕРґСЃС‚СЂРѕРєРё РѕРїСЂРµРґРµР»СЏРµРј,
+  // РєР°РєРѕРµ СЌС‚Рѕ РѕСЃРЅРѕРІР°РЅРёРµ
   case S[P] of
-   '(': // выражение в скобках
+   '(': // РІС‹СЂР°Р¶РµРЅРёРµ РІ СЃРєРѕР±РєР°С…
     begin
      Inc(P);
      Result:=Expr(S,P);
-     // Проверяем, что скобка закрыта
+     // РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ СЃРєРѕР±РєР° Р·Р°РєСЂС‹С‚Р°
      if (P>Length(S)) or (S[P]<>')') then
-      raise ESyntaxError.Create('Ожидается ")" в позиции '+IntToStr(P));
+      raise ESyntaxError.Create('РћР¶РёРґР°РµС‚СЃСЏ ")" РІ РїРѕР·РёС†РёРё '+IntToStr(P));
      Inc(P)
     end;
-   '0'..'9': // Числовая константа
+   '0'..'9': // Р§РёСЃР»РѕРІР°СЏ РєРѕРЅСЃС‚Р°РЅС‚Р°
     Result:=Number(S,P);
-   'A'..'Z','a'..'z','_','А'..'Я','а'..'я': // Идентификатор (переменная или функция)
+   'A'..'Z','a'..'z','_','Рђ'..'РЇ','Р°'..'СЏ': // РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ (РїРµСЂРµРјРµРЅРЅР°СЏ РёР»Рё С„СѓРЅРєС†РёСЏ)
     Result:=Identifier(S,P)
    else
-    raise ESyntaxError.Create('Некорректный символ в позиции '+IntToStr(P))
+    raise ESyntaxError.Create('РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ СЃРёРјРІРѕР» РІ РїРѕР·РёС†РёРё '+IntToStr(P))
   end
  end;
 
-// Выделение подстроки, соответствующей <Factor>,
-// и её вычисление
+// Р’С‹РґРµР»РµРЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ <Factor>,
+// Рё РµС‘ РІС‹С‡РёСЃР»РµРЅРёРµ
 function Factor(const S:string;var P:Integer):Extended;
  begin
   if P>Length(S) then
-   raise ESyntaxError.Create('Неожиданный конец строки');
-  // По первому символу подстроки определяем,
-  // какой это множитель
+   raise ESyntaxError.Create('РќРµРѕР¶РёРґР°РЅРЅС‹Р№ РєРѕРЅРµС† СЃС‚СЂРѕРєРё');
+  // РџРѕ РїРµСЂРІРѕРјСѓ СЃРёРјРІРѕР»Сѓ РїРѕРґСЃС‚СЂРѕРєРё РѕРїСЂРµРґРµР»СЏРµРј,
+  // РєР°РєРѕР№ СЌС‚Рѕ РјРЅРѕР¶РёС‚РµР»СЊ
   case S[P] of
-   '+': // унарный "+"
+   '+': // СѓРЅР°СЂРЅС‹Р№ "+"
     begin
      Inc(P);
      Result:=Factor(S,P)
     end;
-   '-': // унарный "-"
+   '-': // СѓРЅР°СЂРЅС‹Р№ "-"
     begin
      Inc(P);
      Result:=-Factor(S,P)
@@ -688,8 +688,8 @@ function Factor(const S:string;var P:Integer):Extended;
   end
  end;
 
-// Выделение подстроки, соответствующей <Term>,
-// и её вычисление
+// Р’С‹РґРµР»РµРЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ <Term>,
+// Рё РµС‘ РІС‹С‡РёСЃР»РµРЅРёРµ
 function Term(const S:string;var P:Integer):Extended;
  var OpSymb:Char;
      vrem:Extended;
@@ -705,16 +705,16 @@ function Term(const S:string;var P:Integer):Extended;
             vrem:=Result;
             Result:=Result/Factor(S,P);
           except
-            on EZeroDivide do   //если делим на нуль
-               if vrem>0 then //если +
-                    Result:=MaxInt-1000;   //фигачим нечто ооочень большое
-               else Result:=-MaxInt+1000;   //иначе - нечто ооочень маленькое
+            on EZeroDivide do   //РµСЃР»Рё РґРµР»РёРј РЅР° РЅСѓР»СЊ
+               if vrem>0 then //РµСЃР»Рё +
+                    Result:=MaxInt-1000;   //С„РёРіР°С‡РёРј РЅРµС‡С‚Рѕ РѕРѕРѕС‡РµРЅСЊ Р±РѕР»СЊС€РѕРµ
+               else Result:=-MaxInt+1000;   //РёРЅР°С‡Рµ - РЅРµС‡С‚Рѕ РѕРѕРѕС‡РµРЅСЊ РјР°Р»РµРЅСЊРєРѕРµ
             end;
       '=':try
             if Result=Factor(S,P) then Result:=1
                  else Result:=0;
           except
-            ShowMessage('Хрень с boolean');
+            ShowMessage('РҐСЂРµРЅСЊ СЃ boolean');
           end;
       '>':try
             if S[P] <> '=' then begin
@@ -727,7 +727,7 @@ function Term(const S:string;var P:Integer):Extended;
                  else Result:=0;
             end;
           except
-            ShowMessage('Хрень с boolean');
+            ShowMessage('РҐСЂРµРЅСЊ СЃ boolean');
           end;
       '<':try
             if S[P] <> '=' then begin
@@ -740,14 +740,14 @@ function Term(const S:string;var P:Integer):Extended;
                  else Result:=0;
             end;
           except
-            ShowMessage('Хрень с boolean');
+            ShowMessage('РҐСЂРµРЅСЊ СЃ boolean');
           end;
        end
     end
   end;
 
-// Выделение подстроки, соответствующей <Expr>,
-// и её вычисление
+// Р’С‹РґРµР»РµРЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ <Expr>,
+// Рё РµС‘ РІС‹С‡РёСЃР»РµРЅРёРµ
 function Expr(const S:string;var P:Integer):Extended;
  var OpSymb:Char;
   begin
@@ -764,7 +764,7 @@ function Expr(const S:string;var P:Integer):Extended;
   end;
 
 function Space_delete(S:String):string;
-//очищает строку от всех пробелов
+//РѕС‡РёС‰Р°РµС‚ СЃС‚СЂРѕРєСѓ РѕС‚ РІСЃРµС… РїСЂРѕР±РµР»РѕРІ
 var i:byte;
     s_vrem:string;
 begin
@@ -776,16 +776,16 @@ for i:=1 to length(S) do
 Result:=S_vrem;
 end;
 
-// Вычисление выражения
+// Р’С‹С‡РёСЃР»РµРЅРёРµ РІС‹СЂР°Р¶РµРЅРёСЏ
 function Calculate({const} S:string):Extended;
  var P:Integer;
   begin
-   S:=Space_delete(S); //очищаем от пробелов
+   S:=Space_delete(S); //РѕС‡РёС‰Р°РµРј РѕС‚ РїСЂРѕР±РµР»РѕРІ
    ValueInsert(S);
    P:=1;
    Result:=Expr(S,P);
    if P<=Length(S) then
-    raise ESyntaxError.Create('Некорректный символ в позиции '+IntToStr(P))
+    raise ESyntaxError.Create('РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ СЃРёРјРІРѕР» РІ РїРѕР·РёС†РёРё '+IntToStr(P))
 
 end;
 
@@ -807,7 +807,7 @@ procedure TReshalkaMainForm.ButtonSetValueClick(Sender: TObject);
     ListBoxVars.Items.Add(EditVarName.Text+'='+EditVarValue.Text)
   end;
 
-//Конец калькуляторной части
+//РљРѕРЅРµС† РєР°Р»СЊРєСѓР»СЏС‚РѕСЂРЅРѕР№ С‡Р°СЃС‚Рё
 
 
 procedure TReshalkaMainForm.ListBoxVarsClick(Sender: TObject);
@@ -829,15 +829,15 @@ var i,k,m,n,i1, m_str : integer;
    Temp : real;
    index, Nachalo:integer;
    IArr : array of integer;
-   InProcedure : boolean; // Чтобы не печатать ненужные сведения
-   Popali : boolean; // Маркер для Case
-   StArr : array of string[20]; // Сюда будем запоминать названия переменных,
-                            // которые управляют циклами. Необходимо
-                            // для создания вложенных циклов
+   InProcedure : boolean; // Р§С‚РѕР±С‹ РЅРµ РїРµС‡Р°С‚Р°С‚СЊ РЅРµРЅСѓР¶РЅС‹Рµ СЃРІРµРґРµРЅРёСЏ
+   Popali : boolean; // РњР°СЂРєРµСЂ РґР»СЏ Case
+   StArr : array of string[20]; // РЎСЋРґР° Р±СѓРґРµРј Р·Р°РїРѕРјРёРЅР°С‚СЊ РЅР°Р·РІР°РЅРёСЏ РїРµСЂРµРјРµРЅРЅС‹С…,
+                            // РєРѕС‚РѕСЂС‹Рµ СѓРїСЂР°РІР»СЏСЋС‚ С†РёРєР»Р°РјРё. РќРµРѕР±С…РѕРґРёРјРѕ
+                            // РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РІР»РѕР¶РµРЅРЅС‹С… С†РёРєР»РѕРІ
    CycArr : array of integer;
 begin
 
-  ProgressLabel.Caption := 'Идёт вычисление...';
+  ProgressLabel.Caption := 'РРґС‘С‚ РІС‹С‡РёСЃР»РµРЅРёРµ...';
 
   SyntaxFail := false;
   ReshalkaMainForm.NSyntaxClick(nil);
@@ -845,9 +845,9 @@ begin
 
    i := -1;
    i1 := 0;
-   m := 0; // счётчик вложенности бегинов-ендов
-   m_str := 0; // счётчик вложенности циклов
-   SetLength(IArr,30);    // !!! Сделать из чисел глобальные переменные
+   m := 0; // СЃС‡С‘С‚С‡РёРє РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё Р±РµРіРёРЅРѕРІ-РµРЅРґРѕРІ
+   m_str := 0; // СЃС‡С‘С‚С‡РёРє РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё С†РёРєР»РѕРІ
+   SetLength(IArr,30);    // !!! РЎРґРµР»Р°С‚СЊ РёР· С‡РёСЃРµР» РіР»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
    SetLength(StArr,5);
    SetLength(CycArr,5);
    InProcedure := false;
@@ -869,10 +869,10 @@ begin
        if pos ( '(..) ', copy(MainMemo.Lines.Strings[i],1,5) )<>0
          then Nachalo := Nachalo+5;
 
-       // Проверка на процедуру
+       // РџСЂРѕРІРµСЂРєР° РЅР° РїСЂРѕС†РµРґСѓСЂСѓ
        if copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)=':: ' then
           begin
-            // Выделение имени процедуры из строки
+            // Р’С‹РґРµР»РµРЅРёРµ РёРјРµРЅРё РїСЂРѕС†РµРґСѓСЂС‹ РёР· СЃС‚СЂРѕРєРё
             VremName := copy( MainMemo.Lines.Strings[i],
                               pos(':: ',MainMemo.Lines.Strings[i])+IdentCount,
                               length(MainMemo.Lines.Strings[i])
@@ -890,7 +890,7 @@ begin
             inc(i);
           end;
 
-         // Проверка на выполнение процедуры
+         // РџСЂРѕРІРµСЂРєР° РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹
        if pos('&>',MainMemo.Lines.Strings[i])<>0 then
                  begin
                    k :=IdentCount+1;
@@ -910,11 +910,11 @@ begin
                    inc(m);
                    InProcedure := true;
                    //SetLength(IArr,m);
-                   IArr[m-1] := i;  // Сохраняем в стек тек. значение i
+                   IArr[m-1] := i;  // РЎРѕС…СЂР°РЅСЏРµРј РІ СЃС‚РµРє С‚РµРє. Р·РЅР°С‡РµРЅРёРµ i
                    i := VremInteger+1;
 
                  end;
-         // Проверка на конец процедуры
+         // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС† РїСЂРѕС†РµРґСѓСЂС‹
        if Space_Delete(MainMemo.Lines.Strings[i])=')>' then
           begin
             i:=IArr[m-1];
@@ -922,10 +922,10 @@ begin
             if m = 0 then InProcedure := false;
           end;
 
-         //Проверка на формулу
+         //РџСЂРѕРІРµСЂРєР° РЅР° С„РѕСЂРјСѓР»Сѓ
        if copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='>> ' then
           begin
-            //Считываем название переменной
+            //РЎС‡РёС‚С‹РІР°РµРј РЅР°Р·РІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№
             k := IdentCount + Nachalo;
             VremChar:=MainMemo.Lines.Strings[i][k];
             VremName:='';
@@ -937,14 +937,14 @@ begin
             until (VremChar=' ') or (VremChar=':');
             ValueInsert(VremName);
 
-            //Перебираемся через равно
+            //РџРµСЂРµР±РёСЂР°РµРјСЃСЏ С‡РµСЂРµР· СЂР°РІРЅРѕ
             while VremChar<>'=' do begin
                                      inc(k);
                                      VremChar:=MainMemo.Lines.Strings[i][k];
                                    end;
-            // Вычисление однострочной формулы.
-            // Однострочность определяется длиной: все формулы меньше 20 знаков
-            // считаются однострочными и могут вычисляться без ';' на конце
+            // Р’С‹С‡РёСЃР»РµРЅРёРµ РѕРґРЅРѕСЃС‚СЂРѕС‡РЅРѕР№ С„РѕСЂРјСѓР»С‹.
+            // РћРґРЅРѕСЃС‚СЂРѕС‡РЅРѕСЃС‚СЊ РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ РґР»РёРЅРѕР№: РІСЃРµ С„РѕСЂРјСѓР»С‹ РјРµРЅСЊС€Рµ 20 Р·РЅР°РєРѕРІ
+            // СЃС‡РёС‚Р°СЋС‚СЃСЏ РѕРґРЅРѕСЃС‚СЂРѕС‡РЅС‹РјРё Рё РјРѕРіСѓС‚ РІС‹С‡РёСЃР»СЏС‚СЊСЃСЏ Р±РµР· ';' РЅР° РєРѕРЅС†Рµ
 
             if (length ( copy(MainMemo.Lines.Strings[i],
                              k+1,length(MainMemo.Lines.Strings[i])-k) ) < 20)
@@ -957,7 +957,7 @@ begin
 
 
               end
-            else // Вычисление многострочной формулы
+            else // Р’С‹С‡РёСЃР»РµРЅРёРµ РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅРѕР№ С„РѕСЂРјСѓР»С‹
               begin
             VremString := '';
             if pos(';',MainMemo.Lines.Strings[i]) = 0 then begin
@@ -985,9 +985,9 @@ begin
 
             if ( copy(TempStr,1,3)='Zna' ) or
                ( copy(TempStr,1,3)='zna' ) then
-               //Проверка на получение значения свойств среды
-               // Существует, пока не добавили сие в виде функции
-               // - мешает
+               //РџСЂРѕРІРµСЂРєР° РЅР° РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЃРІРѕР№СЃС‚РІ СЃСЂРµРґС‹
+               // РЎСѓС‰РµСЃС‚РІСѓРµС‚, РїРѕРєР° РЅРµ РґРѕР±Р°РІРёР»Рё СЃРёРµ РІ РІРёРґРµ С„СѓРЅРєС†РёРё
+               // - РјРµС€Р°РµС‚
                  begin
                    m := pos('(',TempStr);
                    Delete(TempStr,1,m);
@@ -1006,11 +1006,11 @@ begin
                  end
                else try VremValue := Calculate(DeleteComments(VremString));
                     except on ESyntaxError do
-                       ProgressLabel.Caption := 'Прервано';
+                       ProgressLabel.Caption := 'РџСЂРµСЂРІР°РЅРѕ';
                     end;
 
-            // Проверяем, есть ли уже такая переменная и, соответственно,
-            // изменяем или добавляем значение
+            // РџСЂРѕРІРµСЂСЏРµРј, РµСЃС‚СЊ Р»Рё СѓР¶Рµ С‚Р°РєР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ Рё, СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ,
+            // РёР·РјРµРЅСЏРµРј РёР»Рё РґРѕР±Р°РІР»СЏРµРј Р·РЅР°С‡РµРЅРёРµ
             index:=ListBoxVars.Items.IndexOfName(VremName);
             TempStr := VremName+'='+FloatToStr(VremValue);
             if index>=0 then
@@ -1018,7 +1018,7 @@ begin
               else
             ListBoxVars.Items.Add(TempStr);
 
-            //Подписываем следующей строчкой ответ
+            //РџРѕРґРїРёСЃС‹РІР°РµРј СЃР»РµРґСѓСЋС‰РµР№ СЃС‚СЂРѕС‡РєРѕР№ РѕС‚РІРµС‚
             if copy(DeleteIdents(MainMemo.Lines.Strings[i+1]),1,
                    pos('=',DeleteIdents(MainMemo.Lines.Strings[i+1]))-1 ) =
                  copy(TempStr,1,pos('=',TempStr)-1) then
@@ -1034,10 +1034,10 @@ begin
                    begin MainMemo.Lines.Insert(i+1,TempStr);
                          MainMemo.Lines.Insert(i+2,'');
                    end;
-          end; // Работа с формулой
+          end; // Р Р°Р±РѕС‚Р° СЃ С„РѕСЂРјСѓР»РѕР№
 
 
-          // Проверка на оператор выбора
+          // РџСЂРѕРІРµСЂРєР° РЅР° РѕРїРµСЂР°С‚РѕСЂ РІС‹Р±РѕСЂР°
           if copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)=':> ' then
              begin
                k := IdentCount + Nachalo;
@@ -1051,18 +1051,18 @@ begin
                   length(MainMemo.Lines.Strings[i])-1) );
               if Space_Delete(MainMemo.Lines.Strings[i][1])=':' then
                 if (Calculate( copy(st1,1,pos(':',st1)-1)) = VremValue)
-                then begin  // Если попали в нужный вариант -
-              // находим следующее значение, которое уже не будет подходить,
-              // и сохраняем его в стек наподобие того, как это делалось
-              // для процедур
+                then begin  // Р•СЃР»Рё РїРѕРїР°Р»Рё РІ РЅСѓР¶РЅС‹Р№ РІР°СЂРёР°РЅС‚ -
+              // РЅР°С…РѕРґРёРј СЃР»РµРґСѓСЋС‰РµРµ Р·РЅР°С‡РµРЅРёРµ, РєРѕС‚РѕСЂРѕРµ СѓР¶Рµ РЅРµ Р±СѓРґРµС‚ РїРѕРґС…РѕРґРёС‚СЊ,
+              // Рё СЃРѕС…СЂР°РЅСЏРµРј РµРіРѕ РІ СЃС‚РµРє РЅР°РїРѕРґРѕР±РёРµ С‚РѕРіРѕ, РєР°Рє СЌС‚Рѕ РґРµР»Р°Р»РѕСЃСЊ
+              // РґР»СЏ РїСЂРѕС†РµРґСѓСЂ
                    VremInteger := i;
                 while Space_Delete(MainMemo.Lines.Strings[VremInteger])<>'<:' do
                    inc(VremInteger);
                    Popali := true;
                    inc(m);
                    InProcedure := true;
-                   IArr[m-1] := VremInteger;  // Сохраняем в стек значение i,
-                   // соответствующее окончанию цикла
+                   IArr[m-1] := VremInteger;  // РЎРѕС…СЂР°РЅСЏРµРј РІ СЃС‚РµРє Р·РЅР°С‡РµРЅРёРµ i,
+                   // СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ РѕРєРѕРЅС‡Р°РЅРёСЋ С†РёРєР»Р°
 
                    end;
               end;
@@ -1071,16 +1071,16 @@ begin
             or Popali;
              end; {logic}
 
-          // i-циклы: '0> i := 1 -> 4 :'
+          // i-С†РёРєР»С‹: '0> i := 1 -> 4 :'
           if (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='o> ')
             or (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='O> ')
             or (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='0> ')
-            or (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='о> ')
-            or (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='О> ') then
+            or (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='Рѕ> ')
+            or (copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='Рћ> ') then
           begin
-            // Учитываем, что мы нашли новый цикл
+            // РЈС‡РёС‚С‹РІР°РµРј, С‡С‚Рѕ РјС‹ РЅР°С€Р»Рё РЅРѕРІС‹Р№ С†РёРєР»
             inc(m_str);
-            // Запоминаем обозначение цикла
+            // Р—Р°РїРѕРјРёРЅР°РµРј РѕР±РѕР·РЅР°С‡РµРЅРёРµ С†РёРєР»Р°
             VremName := '';
             k:=Nachalo+IdentCount;
             repeat begin
@@ -1092,14 +1092,14 @@ begin
 
             StArr[m_str-1]:=VremName;
 
-            //Перебираемся через равно
+            //РџРµСЂРµР±РёСЂР°РµРјСЃСЏ С‡РµСЂРµР· СЂР°РІРЅРѕ
             VremChar:=MainMemo.Lines.Strings[i][k];
             while VremChar<>'=' do begin
                                      inc(k);
                                      VremChar:=MainMemo.Lines.Strings[i][k];
                                    end;
             inc(k);
-            // Считываем число или переменную, ОТ которой предстоит считать
+            // РЎС‡РёС‚С‹РІР°РµРј С‡РёСЃР»Рѕ РёР»Рё РїРµСЂРµРјРµРЅРЅСѓСЋ, РћРў РєРѕС‚РѕСЂРѕР№ РїСЂРµРґСЃС‚РѕРёС‚ СЃС‡РёС‚Р°С‚СЊ
             VremString := '';
             repeat begin
             VremString := VremString + MainMemo.Lines.Strings[i][k];
@@ -1107,10 +1107,10 @@ begin
             until (MainMemo.Lines.Strings[i][k]='-')
               and (MainMemo.Lines.Strings[i][k+1]='>');
 
-            VremValue := Calculate(VremString); // Вычисляем значение
+            VremValue := Calculate(VremString); // Р’С‹С‡РёСЃР»СЏРµРј Р·РЅР°С‡РµРЅРёРµ
 
-            // Проверяем, есть ли уже такая переменная и, соответственно,
-            // изменяем или добавляем значение
+            // РџСЂРѕРІРµСЂСЏРµРј, РµСЃС‚СЊ Р»Рё СѓР¶Рµ С‚Р°РєР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ Рё, СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ,
+            // РёР·РјРµРЅСЏРµРј РёР»Рё РґРѕР±Р°РІР»СЏРµРј Р·РЅР°С‡РµРЅРёРµ
             index:=ListBoxVars.Items.IndexOfName(VremName);
             TempStr := VremName+'='+FloatToStr(VremValue);
             if index>=0 then
@@ -1118,40 +1118,40 @@ begin
               else
             ListBoxVars.Items.Add(TempStr);
 
-            // Перебираемся через '->'
+            // РџРµСЂРµР±РёСЂР°РµРјСЃСЏ С‡РµСЂРµР· '->'
             while VremChar<>'>' do begin
                                      inc(k);
                                      VremChar:=MainMemo.Lines.Strings[i][k];
                                    end;
             inc(k);
 
-            // Считываем число или переменную, ДО которой предстоит считать
+            // РЎС‡РёС‚С‹РІР°РµРј С‡РёСЃР»Рѕ РёР»Рё РїРµСЂРµРјРµРЅРЅСѓСЋ, Р”Рћ РєРѕС‚РѕСЂРѕР№ РїСЂРµРґСЃС‚РѕРёС‚ СЃС‡РёС‚Р°С‚СЊ
             VremString:='';
             repeat begin
             VremString := VremString + MainMemo.Lines.Strings[i][k];
             inc(k); end;
             until (MainMemo.Lines.Strings[i][k]=':')
                or (k>=length(MainMemo.Lines.Strings[i]));
-            // Вычисляем и запоминаем
+            // Р’С‹С‡РёСЃР»СЏРµРј Рё Р·Р°РїРѕРјРёРЅР°РµРј
             VremValue := Calculate(VremString);
             CycArr[m_str-1] := round(VremValue);
 
-            // Запоминаем точку начала цикла
+            // Р—Р°РїРѕРјРёРЅР°РµРј С‚РѕС‡РєСѓ РЅР°С‡Р°Р»Р° С†РёРєР»Р°
             inc(m);
             IArr[m-1]:=i;
 
             InProcedure := true;
           end; {i-cycles}
 
-          // Проверка на конец цикла
+          // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС† С†РёРєР»Р°
           if (Space_delete(MainMemo.Lines.Strings[i])='0;')
             or (Space_delete(MainMemo.Lines.Strings[i])='o;')
             or (Space_delete(MainMemo.Lines.Strings[i])='O;')
-            or (Space_delete(MainMemo.Lines.Strings[i])='о;')
-            or (Space_delete(MainMemo.Lines.Strings[i])='О;') then
+            or (Space_delete(MainMemo.Lines.Strings[i])='Рѕ;')
+            or (Space_delete(MainMemo.Lines.Strings[i])='Рћ;') then
           begin
             if round(calculate(StArr[m_str-1])) = CycArr[m_str-1] then
-                begin // Заканчиваем с этим циклом
+                begin // Р—Р°РєР°РЅС‡РёРІР°РµРј СЃ СЌС‚РёРј С†РёРєР»РѕРј
                  // inc(i);
                   dec(m_str);
                   dec(m);
@@ -1167,10 +1167,10 @@ begin
                 end;
           end;
 
-          (* // Проверка на таблицу
+          (* // РџСЂРѕРІРµСЂРєР° РЅР° С‚Р°Р±Р»РёС†Сѓ
           if copy(MainMemo.Lines.Strings[i],Nachalo,IdentCount)='[> ' then
           begin
-            // Запоминаем название переменной, которую нужно выразить
+            // Р—Р°РїРѕРјРёРЅР°РµРј РЅР°Р·РІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№, РєРѕС‚РѕСЂСѓСЋ РЅСѓР¶РЅРѕ РІС‹СЂР°Р·РёС‚СЊ
             VremName := '';
             k:=Nachalo+IdentCount;
             repeat begin
@@ -1180,11 +1180,11 @@ begin
 
 
             ValueInsert(VremName);
-          end;{таблица} *)
-     end; {end-for-i} //Проход по строчкам
+          end;{С‚Р°Р±Р»РёС†Р°} *)
+     end; {end-for-i} //РџСЂРѕС…РѕРґ РїРѕ СЃС‚СЂРѕС‡РєР°Рј
 
 ProcProgress.Position := 0;
-ProgressLabel.Caption := '...Готово!';
+ProgressLabel.Caption := '...Р“РѕС‚РѕРІРѕ!';
 
 end;
 
@@ -1193,7 +1193,7 @@ end;
 procedure TReshalkaMainForm.NExitClick(Sender: TObject);
 begin
 if MainMemo.Modified then
-  case MessageBox(ReshalkaMainForm.Handle, 'Сохранить изменения перед выходом?','Выход из программы',35) of
+  case MessageBox(ReshalkaMainForm.Handle, 'РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ РїРµСЂРµРґ РІС‹С…РѕРґРѕРј?','Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹',35) of
     idYes: begin
             ReshalkaMainForm.NSaveClick(nil);
             if MainMemo.Modified=false then Close;
@@ -1224,8 +1224,8 @@ procedure TReshalkaMainForm.NOpenClick(Sender: TObject);
 begin
 
 if MainMemo.Modified then
-  case MessageBox(ReshalkaMainForm.Handle, 'Сохранить изменения?',
-                                          'Открытие нового файла',35) of
+  case MessageBox(ReshalkaMainForm.Handle, 'РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?',
+                                          'РћС‚РєСЂС‹С‚РёРµ РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°',35) of
     idYes: begin
             ReshalkaMainForm.NSaveClick(nil);
             if not(MainMemo.Modified) then OpenDoc;
@@ -1255,8 +1255,8 @@ end;
 
 procedure TReshalkaMainForm.MainMemo1Enter(Sender: TObject);
 begin
-//Теоретически, должно срабатывать при вводе текста, на данный момент работает
-// и при запуске программы
+//РўРµРѕСЂРµС‚РёС‡РµСЃРєРё, РґРѕР»Р¶РЅРѕ СЃСЂР°Р±Р°С‚С‹РІР°С‚СЊ РїСЂРё РІРІРѕРґРµ С‚РµРєСЃС‚Р°, РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ СЂР°Р±РѕС‚Р°РµС‚
+// Рё РїСЂРё Р·Р°РїСѓСЃРєРµ РїСЂРѕРіСЂР°РјРјС‹
 {ReshalkaMainForm.NUndo.Enabled := True;}
 end;
 
@@ -1299,7 +1299,7 @@ MainMemo.Lines.Strings[i_local] := MainMemo.Lines.Strings[i_local] + ' Znachenie
 end;
 
 // -------------------------------------
-//Обработка форматирования текста
+//РћР±СЂР°Р±РѕС‚РєР° С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ С‚РµРєСЃС‚Р°
 // -------------------------------------
 procedure TReshalkaMainForm.MainMemoKeyPress(Sender: TObject;
   var Key: Char);
@@ -1309,7 +1309,7 @@ procedure TReshalkaMainForm.MainMemoKeyPress(Sender: TObject;
       Nado:boolean;
 begin
 
-  ProgressLabel.Caption := 'Вводится текст';
+  ProgressLabel.Caption := 'Р’РІРѕРґРёС‚СЃСЏ С‚РµРєСЃС‚';
 
   case Ord(Key) of
     KEY_CTRL_B:
@@ -1352,7 +1352,7 @@ begin
           (Sender as TRichEdit).SelAttributes.Style :=
           (Sender as TRichEdit).SelAttributes.Style+[fsUnderline];
       end;
-    KEY_CTRL_Y: //комментарий: делаем зелёный курсив
+    KEY_CTRL_Y: //РєРѕРјРјРµРЅС‚Р°СЂРёР№: РґРµР»Р°РµРј Р·РµР»С‘РЅС‹Р№ РєСѓСЂСЃРёРІ
       begin
         Key := #0;
         if (Sender as TRichEdit).SelAttributes.Color <> clGreen then
@@ -1367,7 +1367,7 @@ begin
           (Sender as TRichEdit).SelAttributes.Style :=
           (Sender as TRichEdit).SelAttributes.Style + [fsItalic];
       end;
-    KEY_CTRL_T: // формула: делаем красный
+    KEY_CTRL_T: // С„РѕСЂРјСѓР»Р°: РґРµР»Р°РµРј РєСЂР°СЃРЅС‹Р№
       begin
         Key := #0;
         if (Sender as TRichEdit).SelAttributes.Color <> clRed then
@@ -1375,7 +1375,7 @@ begin
         else
           (Sender as TRichEdit).SelAttributes.Color := clBlack;
       end;
-    KEY_CTRL_G: // решение: делаем синий
+    KEY_CTRL_G: // СЂРµС€РµРЅРёРµ: РґРµР»Р°РµРј СЃРёРЅРёР№
       begin
         Key := #0;
         if (Sender as TRichEdit).SelAttributes.Color <> clBlue then
@@ -1383,44 +1383,44 @@ begin
         else
           (Sender as TRichEdit).SelAttributes.Color := clBlack;
       end;
-    KEY_CTRL_D: //Создание конечного варианта документа
+    KEY_CTRL_D: //РЎРѕР·РґР°РЅРёРµ РєРѕРЅРµС‡РЅРѕРіРѕ РІР°СЂРёР°РЅС‚Р° РґРѕРєСѓРјРµРЅС‚Р°
       begin
-        ProgressLabel.Caption := 'Идёт создание конечного варианта текста...';
+        ProgressLabel.Caption := 'РРґС‘С‚ СЃРѕР·РґР°РЅРёРµ РєРѕРЅРµС‡РЅРѕРіРѕ РІР°СЂРёР°РЅС‚Р° С‚РµРєСЃС‚Р°...';
         Key := #0;
         nado := true;
         ResultMemo.Lines.Clear;
         for i:=0 to (MainMemo.Lines.Count-1) do
           begin
 
-             // Начало текста, не включаемого в конечный вариант
+             // РќР°С‡Р°Р»Рѕ С‚РµРєСЃС‚Р°, РЅРµ РІРєР»СЋС‡Р°РµРјРѕРіРѕ РІ РєРѕРЅРµС‡РЅС‹Р№ РІР°СЂРёР°РЅС‚
             if ( pos( '(*' ,MainMemo.Lines.Strings[i])<>0 ) and (nado)
                then begin
                      nado := false;
                     end;
 
-             // Копируем текст с учётом возможности однострочного комментария
+             // РљРѕРїРёСЂСѓРµРј С‚РµРєСЃС‚ СЃ СѓС‡С‘С‚РѕРј РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕРґРЅРѕСЃС‚СЂРѕС‡РЅРѕРіРѕ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ
             if (nado) and (copy(MainMemo.Lines.Strings[i],1,4)<>'(..)')
                then ResultMemo.Lines.Add(MainMemo.Lines.Strings[i]);
 
-             // Конец текста, не включаемого в конечный вариант
+             // РљРѕРЅРµС† С‚РµРєСЃС‚Р°, РЅРµ РІРєР»СЋС‡Р°РµРјРѕРіРѕ РІ РєРѕРЅРµС‡РЅС‹Р№ РІР°СЂРёР°РЅС‚
             if (pos('*)',MainMemo.Lines.Strings[i])<>0) and (nado=false)
                 then nado := true
 
           end;
       end;
-    KEY_CTRL_W: // Меняем местами исходный и конечный варианты документа
+    KEY_CTRL_W: // РњРµРЅСЏРµРј РјРµСЃС‚Р°РјРё РёСЃС…РѕРґРЅС‹Р№ Рё РєРѕРЅРµС‡РЅС‹Р№ РІР°СЂРёР°РЅС‚С‹ РґРѕРєСѓРјРµРЅС‚Р°
       begin
         ReshalkaMainForm.SwapButtonClick(nil);
       end;
-    KEY_CTRL_L: // Авто-цвет
+    KEY_CTRL_L: // РђРІС‚Рѕ-С†РІРµС‚
       begin
         Key := #0;
-        // Проверка синтаксиса - чтобы не было ошибок
+        // РџСЂРѕРІРµСЂРєР° СЃРёРЅС‚Р°РєСЃРёСЃР° - С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ РѕС€РёР±РѕРє
         SyntaxFail := false;
         ReshalkaMainForm.NSyntaxClick(nil);
         if SyntaxFail then exit;
 
-        ProgressLabel.Caption := 'Идёт оформление текста...';
+        ProgressLabel.Caption := 'РРґС‘С‚ РѕС„РѕСЂРјР»РµРЅРёРµ С‚РµРєСЃС‚Р°...';
         k := 0;
         i := 0;
         while i<>MainMemo.Lines.Count do
@@ -1428,7 +1428,7 @@ begin
             ProcProgress.Max := MainMemo.Lines.Count;
             ProcProgress.Position := i;
 
-            //Формула
+            //Р¤РѕСЂРјСѓР»Р°
             if (pos('>>',MainMemo.Lines.Strings[i])<>0) then
               begin
 
@@ -1445,7 +1445,7 @@ begin
                                    length(MainMemo.Lines.Strings[i])-
                                       pos('>>',MainMemo.Lines.Strings[i]));
               end
-            else // Многострочная формула
+            else // РњРЅРѕРіРѕСЃС‚СЂРѕС‡РЅР°СЏ С„РѕСЂРјСѓР»Р°
             begin
 
                 MainMemo.SelStart := k + pos('>>',MainMemo.Lines.Strings[i])-1;
@@ -1474,21 +1474,21 @@ begin
                 MainMemo.SelLength := 0;
 
 
-                //Синий цвет - решение
+                //РЎРёРЅРёР№ С†РІРµС‚ - СЂРµС€РµРЅРёРµ
                 MainMemo.SelStart := k + length(MainMemo.Lines.Strings[i]) + 2;
                 MainMemo.SelLength := length(MainMemo.Lines.Strings[i+1]);
                 MainMemo.SelAttributes.Color := clBlue;
 
                 MainMemo.SelLength:=0;
 
-            end; {формула}
+            end; {С„РѕСЂРјСѓР»Р°}
 
-            // Голубой - операторы выбора
+            // Р“РѕР»СѓР±РѕР№ - РѕРїРµСЂР°С‚РѕСЂС‹ РІС‹Р±РѕСЂР°
           if pos (':>', MainMemo.Lines.Strings[i])<>0 then
-              begin    // Многострочный комментарий
+              begin    // РњРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№
                 MainMemo.SelStart := k + pos(':>',MainMemo.Lines.Strings[i])-1;
                 while pos ('<:',MainMemo.Lines.Strings[i])=0 do
-                  begin // Отыскиваем конец
+                  begin // РћС‚С‹СЃРєРёРІР°РµРј РєРѕРЅРµС†
                     k := k + length (MainMemo.Lines.Strings[i]) + 2;
                     inc(i);
                   end;
@@ -1498,12 +1498,12 @@ begin
                 MainMemo.SelLength := 0;
               end;
 
-            // Розовый - блок формул
+            // Р РѕР·РѕРІС‹Р№ - Р±Р»РѕРє С„РѕСЂРјСѓР»
           if pos ('<(', MainMemo.Lines.Strings[i])<>0 then
-              begin    // Блок формул
+              begin    // Р‘Р»РѕРє С„РѕСЂРјСѓР»
                 MainMemo.SelStart := k + pos('<(',MainMemo.Lines.Strings[i])-1;
                 while pos (')>',MainMemo.Lines.Strings[i])=0 do
-                  begin // Отыскиваем конец
+                  begin // РћС‚С‹СЃРєРёРІР°РµРј РєРѕРЅРµС†
                     k := k + length (MainMemo.Lines.Strings[i]) + 2;
                     inc(i);
                   end;
@@ -1515,7 +1515,7 @@ begin
                 MainMemo.SelLength := 0;
               end;
 
-            // Оранжевый - процедура
+            // РћСЂР°РЅР¶РµРІС‹Р№ - РїСЂРѕС†РµРґСѓСЂР°
           if pos('::',MainMemo.Lines.Strings[i])<>0 then
               begin
                 MainMemo.SelStart := k + pos('::',MainMemo.Lines.Strings[i])-1;
@@ -1532,12 +1532,12 @@ begin
                 MainMemo.SelAttributes.Color := $0088FF;
                 MainMemo.SelLength := 0;
               end;
-            // Золотой цвет - цикл
+            // Р—РѕР»РѕС‚РѕР№ С†РІРµС‚ - С†РёРєР»
           if (pos('0>',MainMemo.Lines.Strings[i])<>0) or
              (pos('o>',MainMemo.Lines.Strings[i])<>0) or
              (pos('O>',MainMemo.Lines.Strings[i])<>0) or
-             (pos('о>',MainMemo.Lines.Strings[i])<>0) or
-             (pos('О>',MainMemo.Lines.Strings[i])<>0) then
+             (pos('Рѕ>',MainMemo.Lines.Strings[i])<>0) or
+             (pos('Рћ>',MainMemo.Lines.Strings[i])<>0) then
               begin
                 MainMemo.SelStart := k + pos('>',MainMemo.Lines.Strings[i])-2;
                 MainMemo.SelLength := length(MainMemo.Lines.Strings[i]) -
@@ -1548,15 +1548,15 @@ begin
           if (pos('0;',MainMemo.Lines.Strings[i])<>0) or
              (pos('o;',MainMemo.Lines.Strings[i])<>0) or
              (pos('O;',MainMemo.Lines.Strings[i])<>0) or
-             (pos('о;',MainMemo.Lines.Strings[i])<>0) or
-             (pos('О;',MainMemo.Lines.Strings[i])<>0) then
+             (pos('Рѕ;',MainMemo.Lines.Strings[i])<>0) or
+             (pos('Рћ;',MainMemo.Lines.Strings[i])<>0) then
               begin
                 MainMemo.SelStart := k;
                 MainMemo.SelLength := length(MainMemo.Lines.Strings[i]);
                 MainMemo.SelAttributes.Color := $00CCCC;
                 MainMemo.SelLength := 0;
               end;
-            // Серый цвет - текст, не включаемый в конечный документ
+            // РЎРµСЂС‹Р№ С†РІРµС‚ - С‚РµРєСЃС‚, РЅРµ РІРєР»СЋС‡Р°РµРјС‹Р№ РІ РєРѕРЅРµС‡РЅС‹Р№ РґРѕРєСѓРјРµРЅС‚
           if copy(MainMemo.Lines.Strings[i],1,2)='(*' then
             begin
               MainMemo.SelStart := k + pos('(*',MainMemo.Lines.Strings[i])-1;
@@ -1594,7 +1594,7 @@ begin
               MainMemo.SelLength := 0;
             end;
 
-                //Комментарий
+                //РљРѕРјРјРµРЅС‚Р°СЂРёР№
             if pos('//',MainMemo.Lines.Strings[i])<>0 then
               begin
 
@@ -1607,10 +1607,10 @@ begin
 
               end;
             if pos ('{', MainMemo.Lines.Strings[i])<>0 then
-              begin    // Многострочный комментарий
+              begin    // РњРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№
                 MainMemo.SelStart := k + pos('{',MainMemo.Lines.Strings[i])-1;
                 while pos ('}',MainMemo.Lines.Strings[i])=0 do
-                  begin // Отыскиваем конец
+                  begin // РћС‚С‹СЃРєРёРІР°РµРј РєРѕРЅРµС†
                     k := k + length (MainMemo.Lines.Strings[i]) + 2;
                     inc(i);
                   end;
@@ -1627,13 +1627,13 @@ begin
           end;
        ProcProgress.Position := 0;
       end;
-    {KEY_CTRL_Z:    //отмена последнего действия
+    {KEY_CTRL_Z:    //РѕС‚РјРµРЅР° РїРѕСЃР»РµРґРЅРµРіРѕ РґРµР№СЃС‚РІРёСЏ
       begin
         Key:=#0;
         MainMemo.Undo;
       end;               }
   end;
- //Возврат к стандартному стилю
+ //Р’РѕР·РІСЂР°С‚ Рє СЃС‚Р°РЅРґР°СЂС‚РЅРѕРјСѓ СЃС‚РёР»СЋ
       MainMemo.SelAttributes.Color := clBlack;
 
       if fsItalic in MainMemo.SelAttributes.Style then
@@ -1649,15 +1649,15 @@ begin
           MainMemo.SelAttributes.Style :=
           MainMemo.SelAttributes.Style - [fsStrikeOut];
 
-ProgressLabel.Caption := '...Готово!';
+ProgressLabel.Caption := '...Р“РѕС‚РѕРІРѕ!';
 end;
 
 procedure TReshalkaMainForm.SwapButtonClick(Sender: TObject);
-// Переставление местами конечного и исходного текста
+// РџРµСЂРµСЃС‚Р°РІР»РµРЅРёРµ РјРµСЃС‚Р°РјРё РєРѕРЅРµС‡РЅРѕРіРѕ Рё РёСЃС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°
 begin
-if ResultLabel.Caption = 'Конечный текст' then
-    ResultLabel.Caption := 'Исходный текст'
-  else ResultLabel.Caption := 'Конечный текст';
+if ResultLabel.Caption = 'РљРѕРЅРµС‡РЅС‹Р№ С‚РµРєСЃС‚' then
+    ResultLabel.Caption := 'РСЃС…РѕРґРЅС‹Р№ С‚РµРєСЃС‚'
+  else ResultLabel.Caption := 'РљРѕРЅРµС‡РЅС‹Р№ С‚РµРєСЃС‚';
 
 MainMemo.Lines.SaveToFile('Temp1.rtf');
 ResultMemo.Lines.SaveToFile('Temp2.rtf');
@@ -1667,11 +1667,11 @@ MainMemo.Lines.LoadFromFile('Temp2.rtf');
 end;
 
 //-------------------------------------------
-// Одиночное решение формулы
+// РћРґРёРЅРѕС‡РЅРѕРµ СЂРµС€РµРЅРёРµ С„РѕСЂРјСѓР»С‹
 //-------------------------------------------
 
 procedure TReshalkaMainForm.NFontClick(Sender: TObject);
-// Надо переделывать
+// РќР°РґРѕ РїРµСЂРµРґРµР»С‹РІР°С‚СЊ
 
 begin
 if ChangeFontDialog.Execute then
@@ -1696,9 +1696,9 @@ var i,k,m,index : integer;
   begin
         k := 0;
         i := MainMemo.CaretPos.Y;
-         if copy(MainMemo.Lines.Strings[i],1,IdentCount)='>> ' then //Проверка на формулу
+         if copy(MainMemo.Lines.Strings[i],1,IdentCount)='>> ' then //РџСЂРѕРІРµСЂРєР° РЅР° С„РѕСЂРјСѓР»Сѓ
           begin
-            //Считываем название переменной
+            //РЎС‡РёС‚С‹РІР°РµРј РЅР°Р·РІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№
             k := IdentCount + 1;
             VremChar:=MainMemo.Lines.Strings[i][k];
             VremName:='';
@@ -1709,7 +1709,7 @@ var i,k,m,index : integer;
                    end
             until (VremChar=' ') or (VremChar=':');
 
-            //Перебираемся через равно
+            //РџРµСЂРµР±РёСЂР°РµРјСЃСЏ С‡РµСЂРµР· СЂР°РІРЅРѕ
             while VremChar<>'=' do begin
                                      inc(k);
                                      VremChar:=MainMemo.Lines.Strings[i][k];
@@ -1717,7 +1717,7 @@ var i,k,m,index : integer;
 
             VremString := '';
             TempStr := copy(MainMemo.Lines.Strings[i],k+1,length(MainMemo.Lines.Strings[i]) - k + 1);
-            if pos('//',TempStr)<>0 then     // Очищаем от лишних комментариев
+            if pos('//',TempStr)<>0 then     // РћС‡РёС‰Р°РµРј РѕС‚ Р»РёС€РЅРёС… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
                 TempStr := copy(TempStr,1,pos('//',TempStr));
 
             if pos(';',MainMemo.Lines.Strings[i]) = 0 then begin
@@ -1726,7 +1726,7 @@ var i,k,m,index : integer;
 
                while pos(';',MainMemo.Lines.Strings[i]) = 0 do begin
                    TempStr := MainMemo.Lines.Strings[i];
-                   if pos('//',TempStr)<>0 then     // Очищаем от лишних комментариев
+                   if pos('//',TempStr)<>0 then     // РћС‡РёС‰Р°РµРј РѕС‚ Р»РёС€РЅРёС… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ
                        TempStr := copy(TempStr,1,pos('//',TempStr));
                    VremString := VremString + TempStr;
                    inc(i);
@@ -1747,7 +1747,7 @@ var i,k,m,index : integer;
 
             if ( copy(TempStr,1,3)='Zna' ) or
                ( copy(TempStr,1,3)='zna' ) then
-               //Проверка на получение значения свойств среды
+               //РџСЂРѕРІРµСЂРєР° РЅР° РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЃРІРѕР№СЃС‚РІ СЃСЂРµРґС‹
                  begin
                    m := pos('(',TempStr);
                    Delete(TempStr,1,m);
@@ -1783,10 +1783,10 @@ var i,k,m,index : integer;
               else begin MainMemo.Lines.Insert(i+1,TempStr);
                          MainMemo.Lines.Insert(i+2,'');
                    end;
-          end; // Работа с формулой
+          end; // Р Р°Р±РѕС‚Р° СЃ С„РѕСЂРјСѓР»РѕР№
 
- // Переход к следующей формуле
- // -> отключается в настройках (в недалёком будущем ;) )
+ // РџРµСЂРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµР№ С„РѕСЂРјСѓР»Рµ
+ // -> РѕС‚РєР»СЋС‡Р°РµС‚СЃСЏ РІ РЅР°СЃС‚СЂРѕР№РєР°С… (РІ РЅРµРґР°Р»С‘РєРѕРј Р±СѓРґСѓС‰РµРј ;) )
  k := 0;
  repeat begin
           k := k + length(MainMemo.Lines.Strings[i]);
@@ -1822,7 +1822,7 @@ end;
 procedure TReshalkaMainForm.NCreateClick(Sender: TObject);
 begin
 if MainMemo.Modified then
-  case MessageBox(ReshalkaMainForm.Handle, 'Сохранить изменения?','Создание нового документа',35) of
+  case MessageBox(ReshalkaMainForm.Handle, 'РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?','РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ РґРѕРєСѓРјРµРЅС‚Р°',35) of
     idYes: begin
             ReshalkaMainForm.NSaveClick(nil);
             MainMemo.Lines.Clear;
@@ -1923,7 +1923,7 @@ else begin delete(vrem, pos(':: ',vrem),IdentCount);
 end;
 
 // -------------------------------------------
-//             Проверка синтаксиса
+//             РџСЂРѕРІРµСЂРєР° СЃРёРЅС‚Р°РєСЃРёСЃР°
 // -------------------------------------------
 procedure TReshalkaMainForm.NSyntaxClick(Sender: TObject);
 var i,p,i1,p1,sum,m : integer;
@@ -1954,10 +1954,10 @@ var i,p,i1,p1,sum,m : integer;
 
 begin
 
-   // Замена идентификаторов
+   // Р—Р°РјРµРЅР° РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ
 
-   // Базовые проверки
-   // 1. Количество begin = количеству end
+   // Р‘Р°Р·РѕРІС‹Рµ РїСЂРѕРІРµСЂРєРё
+   // 1. РљРѕР»РёС‡РµСЃС‚РІРѕ begin = РєРѕР»РёС‡РµСЃС‚РІСѓ end
    sum :=0;
    m := MainMemo.Lines.Count;
    for i:=0 to m do begin
@@ -1966,39 +1966,39 @@ begin
      if pos(')>',st)<>0 then dec(sum);
    end;
    if sum <> 0 then begin
-      Oshibka('Количество идентификаторов начала не равно количеству идентификаторов завершения!');
+      Oshibka('РљРѕР»РёС‡РµСЃС‚РІРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ РЅР°С‡Р°Р»Р° РЅРµ СЂР°РІРЅРѕ РєРѕР»РёС‡РµСЃС‚РІСѓ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ Р·Р°РІРµСЂС€РµРЅРёСЏ!');
    end;
 
-   // Проверки синтаксиса
+   // РџСЂРѕРІРµСЂРєРё СЃРёРЅС‚Р°РєСЃРёСЃР°
    i := -1;
-   p := 0; // Отсчёт выделения
+   p := 0; // РћС‚СЃС‡С‘С‚ РІС‹РґРµР»РµРЅРёСЏ
 
    while i<>MainMemo.Lines.Count do
      begin
        Perehod;
 
-       // Формула     '>> имя := выражение;'
+       // Р¤РѕСЂРјСѓР»Р°     '>> РёРјСЏ := РІС‹СЂР°Р¶РµРЅРёРµ;'
        if pos('>> ',st)<>0 then
            begin
              if pos(' := ',st)=0 then begin
-                Oshibka('Отсутствует оператор присвоения в формуле!');
+                Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РѕРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІРѕРµРЅРёСЏ РІ С„РѕСЂРјСѓР»Рµ!');
                 exit;
                 end;
              if ( length( copy(st,pos(':= ',st),length(st)-pos(':= ',st)) )
                >= 20)
                 and (st[length(st)]<>';') then
                   begin
-                    Oshibka('Отсутствует '';'' в конце!');
+                    Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ '';'' РІ РєРѕРЅС†Рµ!');
                     exit;
                   end;
-           end; {формула}
+           end; {С„РѕСЂРјСѓР»Р°}
 
-       //Описание процедуры   ':: имя :'
+       //РћРїРёСЃР°РЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹   ':: РёРјСЏ :'
        if pos(':: ',st)<>0 then
          begin
            if (st[length(st)]<>':') then
             begin
-             Oshibka('Отсутствует '':'' в конце!');
+             Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ '':'' РІ РєРѕРЅС†Рµ!');
              exit;
             end;
            i1 := i;
@@ -2006,50 +2006,50 @@ begin
            Perehod;
          if (st<>'<(') and (st<>'<( ') then
            begin
-             Oshibka ('Отсутствует идентификатор начала процедуры!');
+             Oshibka ('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РЅР°С‡Р°Р»Р° РїСЂРѕС†РµРґСѓСЂС‹!');
              exit;
            end;
          repeat begin
            Perehod;
            if (i=MainMemo.Lines.Count) then begin
-             Oshibka('Не найден идентификатор конца процедуры',p1);
+             Oshibka('РќРµ РЅР°Р№РґРµРЅ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєРѕРЅС†Р° РїСЂРѕС†РµРґСѓСЂС‹',p1);
              exit;
            end;
          end
          until (st=')>') or (st=' )>');
 
-         end; {описание процедуры}
+         end; {РѕРїРёСЃР°РЅРёРµ РїСЂРѕС†РµРґСѓСЂС‹}
 
-       //Оператор выбора  ':> (...) :'
+       //РћРїРµСЂР°С‚РѕСЂ РІС‹Р±РѕСЂР°  ':> (...) :'
        if pos(':> ',st)<>0 then begin
          if st[length(st)]<>':' then begin
-           Oshibka('Отсутствует '':'' в конце строки!');
+           Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ '':'' РІ РєРѕРЅС†Рµ СЃС‚СЂРѕРєРё!');
            exit;
          end;
          Perehod;
-         repeat begin // Проход по возможным значениям выбора
+         repeat begin // РџСЂРѕС…РѕРґ РїРѕ РІРѕР·РјРѕР¶РЅС‹Рј Р·РЅР°С‡РµРЅРёСЏРј РІС‹Р±РѕСЂР°
          if i=MainMemo.Lines.Count then begin
-           Oshibka('Отсутствует идентификатор конца оператора выбора!');
+           Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєРѕРЅС†Р° РѕРїРµСЂР°С‚РѕСЂР° РІС‹Р±РѕСЂР°!');
            exit;
          end;
 
          if pos(':',st)=0 then begin
-           Oshibka('Чушь какая-то!');
+           Oshibka('Р§СѓС€СЊ РєР°РєР°СЏ-С‚Рѕ!');
            exit; end;
          if pos(':',st)<>1 then begin
-           Oshibka('Не хватает '':'' перед выбираемым значением!');
+           Oshibka('РќРµ С…РІР°С‚Р°РµС‚ '':'' РїРµСЂРµРґ РІС‹Р±РёСЂР°РµРјС‹Рј Р·РЅР°С‡РµРЅРёРµРј!');
            exit; end;
-         if pos('<(',st)=0 then // Однострочный код
+         if pos('<(',st)=0 then // РћРґРЅРѕСЃС‚СЂРѕС‡РЅС‹Р№ РєРѕРґ
               begin
                 if (st[length(st)]<>';') and (pos('<:',st)=0) then begin
-                  Oshibka('Отсутствует '';'' в конце строки!');
+                  Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ '';'' РІ РєРѕРЅС†Рµ СЃС‚СЂРѕРєРё!');
                   exit; end;
               end
-            else // многострочный код
+            else // РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Р№ РєРѕРґ
               begin
                 repeat begin
                  if i=MainMemo.Lines.Count then begin
-                   Oshibka('Отсутствует идентификатор завершения!');
+                   Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°РІРµСЂС€РµРЅРёСЏ!');
                    exit;
                  end;
                  Perehod;
@@ -2059,34 +2059,34 @@ begin
          end;
          until (Space_Delete(st)='<:');
 
-       end; {оператор выбора}
+       end; {РѕРїРµСЂР°С‚РѕСЂ РІС‹Р±РѕСЂР°}
 
-       // Оператор цикла 0> i := 1 -> 5 : |  [...] | 0;
-       // Идентификатор: ноль, русская или английская 'о'
+       // РћРїРµСЂР°С‚РѕСЂ С†РёРєР»Р° 0> i := 1 -> 5 : |  [...] | 0;
+       // РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ: РЅРѕР»СЊ, СЂСѓСЃСЃРєР°СЏ РёР»Рё Р°РЅРіР»РёР№СЃРєР°СЏ 'Рѕ'
        if (pos('0> ',st)<>0) or (pos('o> ',st)<>0)
-       or (pos('O> ',st)<>0) or (pos('о> ',st)<>0) or (pos('О> ',st)<>0)
+       or (pos('O> ',st)<>0) or (pos('Рѕ> ',st)<>0) or (pos('Рћ> ',st)<>0)
          then begin
-           // Проверка на конечное значение
+           // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС‡РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
            if pos('->',st)=0 then begin
-           Oshibka('Отсутствует результирующее значение!'); exit; end;
-           // Проверка на начало отсчёта
+           Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РµРµ Р·РЅР°С‡РµРЅРёРµ!'); exit; end;
+           // РџСЂРѕРІРµСЂРєР° РЅР° РЅР°С‡Р°Р»Рѕ РѕС‚СЃС‡С‘С‚Р°
            if (pos(':=',st)=0) or (Space_delete(
            copy(st,pos(':=',st)+2,pos('->',st)-(pos(':=',st)+2)) )='')
              then begin
-            Oshibka('Отсутствует начало отсчёта!'); exit
+            Oshibka('РћС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РЅР°С‡Р°Р»Рѕ РѕС‚СЃС‡С‘С‚Р°!'); exit
            end;
-           // Проверка на конец цикла
+           // РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅРµС† С†РёРєР»Р°
             repeat begin
            Perehod;
            if (i=MainMemo.Lines.Count) then begin
-             Oshibka('Не найден идентификатор конца процедуры',p1);
+             Oshibka('РќРµ РЅР°Р№РґРµРЅ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РєРѕРЅС†Р° РїСЂРѕС†РµРґСѓСЂС‹',p1);
              exit;
            end;
          end
-         until (st='0;') or (st='o;') or (st='O;') or (st='о;') or (st='О;');
+         until (st='0;') or (st='o;') or (st='O;') or (st='Рѕ;') or (st='Рћ;');
 
-       end; {оператор цикла}
-     end;{проход по строкам}
+       end; {РѕРїРµСЂР°С‚РѕСЂ С†РёРєР»Р°}
+     end;{РїСЂРѕС…РѕРґ РїРѕ СЃС‚СЂРѕРєР°Рј}
 
 end;
 
@@ -2099,7 +2099,7 @@ SyntaxFail := false;
 for i := 1 to VeshMax do
   SetLength(SvoistvaVeshestv[ByteToVeshestva(i)],MaxN[ByteToVeshestva(i)]);
 
-  //Воздух
+  //Р’РѕР·РґСѓС…
 for i := 0 to MaxN[Vozduh]-1 do
   for k := 1 to 8 do
     SvoistvaVeshestv[Vozduh][i][ByteToSvoistva(k)] := Vozduh_Sv[i+1][ByteToSvoistva(k)];
@@ -2111,11 +2111,11 @@ for i := 0 to MaxN[CO2]-1 do
 for i := 0 to MaxN[N2]-1 do
   for k := 1 to 8 do
     SvoistvaVeshestv[N2][i][ByteToSvoistva(k)] := SvoistvaVesh[N2][i+1][ByteToSvoistva(k)];
- //СО2
+ //РЎРћ2
 for i := 0 to MaxN[H2]-1 do
   for k := 1 to 8 do
     SvoistvaVeshestv[H2][i][ByteToSvoistva(k)] := SvoistvaVesh[H2][i+1][ByteToSvoistva(k)];
-//Вода
+//Р’РѕРґР°
 for i := 0 to MaxN[Voda]-1 do
   for k := 1 to 8 do
     SvoistvaVeshestv[Voda][i][ByteToSvoistva(k)] := Voda_Sv[i+1][ByteToSvoistva(k)];
